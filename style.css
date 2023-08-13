@@ -1,0 +1,37 @@
+*{
+    padding: 0px 0px;
+    margin: 0px 0px;
+   
+}
+
+body{
+    background-color: rgb(221, 214, 153);
+}
+
+#longUrl{
+    position: relative;
+    top: 40%;
+    left: 10%;
+    height: 40px;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding-left: 10px;
+}
+
+#submit{
+    position: relative;
+    top: 45%;
+    left: 10%;
+    height: 70px;
+    width: 100px;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: large;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: azure;
+    background-color: rgb(124, 116, 20);
+}
+
+    

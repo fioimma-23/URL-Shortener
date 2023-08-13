@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <center>
+    <h1>URL Shortener</h1><br></center>
+    <form id="urlForm">
+      <label for="longUrl">Enter a Long URL:</label><br><br><br><br>
+        <input type="text" id="longUrl" name="longUrl" required><br><br>
+        <button id="submit">Shorten URL</button>
+    
+    </form>
+    <br>
+    <p>Shortened URL: <a id="shortenedUrl" target="_blank"></a></p>
+
+    <script>
+        document.getElementById("urlForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const longUrl = document.getElementById("longUrl").value;
+            const response = await shortenUrl(longUrl);
+
+            if (response.shortUrl) {
+                const shortenedUrlElement = document.getElementById("shortenedUrl");
+                shortenedUrlElement.href = response.shortUrl;
+                shortenedUrlElement.textContent = response.shortUrl;
+            }
+        });
+
+        async function shortenUrl(longUrl) {
+            try {
+
+                const simulatedResponse = {
+                    shortUrl: "http://shortened-url.com/xyz"
+                };
+                return simulatedResponse;
+            } catch (error) {
+                console.error("Error shortening URL:", error);
+            }
+        }
+    </script>
+    
+</body>
+</html>
