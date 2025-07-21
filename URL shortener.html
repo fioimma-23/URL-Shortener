@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>URL Shortener</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic URL Shortener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #resultContainer {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <center>
-    <h1>URL Shortener</h1><br></center>
-    <form id="urlForm">
-      <label for="longUrl">Enter a Long URL:</label><br><br><br><br>
-        <input type="text" id="longUrl" name="longUrl" required><br><br>
-        <button id="submit">Shorten URL</button>
-    
-    </form>
-    <br>
-    <p>Shortened URL: <a id="shortenedUrl" target="_blank"></a></p>
 
-    <script>
-        document.getElementById("urlForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+  <h1>URL Shortener</h1>
 
-            const longUrl = document.getElementById("longUrl").value;
-            const response = await shortenUrl(longUrl);
+  <form id="urlForm">
+    <label for="longUrl">Enter a Long URL:</label><br><br>
+    <input type="text" id="longUrl" name="longUrl" required><br><br>
+    <button type="submit">Shorten URL</button>
+  </form>
 
-            if (response.shortUrl) {
-                const shortenedUrlElement = document.getElementById("shortenedUrl");
-                shortenedUrlElement.href = response.shortUrl;
-                shortenedUrlElement.textContent = response.shortUrl;
-            }
-        });
+  <p id="resultContainer" style="display: none;">
+    Shortened URL: <a id="shortenedUrl" href="#" target="_blank"></a>
+  </p>
 
-        async function shortenUrl(longUrl) {
-            try {
+  <script>
+    document.getElementById("urlForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
 
-                const simulatedResponse = {
-                    shortUrl: "http://shortened-url.com/xyz"
-                };
-                return simulatedResponse;
-            } catch (error) {
-                console.error("Error shortening URL:", error);
-            }
-        }
-    </script>
-    
+      const longUrl = document.getElementById("longUrl").value.trim();
+      if (!longUrl) return;
+
+      const result = await shortenUrl(longUrl);
+
+      if (result?.shortUrl) {
+        const shortenedUrlElement = document.getElementById("shortenedUrl");
+        shortenedUrlElement.href = result.shortUrl;
+        shortenedUrlElement.textContent = result.shortUrl;
+        document.getElementById("resultContainer").style.display = "block";
+      } else {
+        alert("Failed to shorten URL. Please try again.");
+      }
+    });
+
+    async function shortenUrl(longUrl) {
+      try {
+        const response = await fetch("https://tinyurl.com/api-create.php?url=" + encodeURIComponent(longUrl));
+        const shortUrl = await response.text();
+        return { shortUrl };
+      } catch (error) {
+        console.error("Error:", error);
+        return null;
+      }
+    }
+  </script>
+
 </body>
 </html>
